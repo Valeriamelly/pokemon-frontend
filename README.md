@@ -66,38 +66,57 @@ export default tseslint.config([
     },
   },
 ])
-# PokéDemo – Búsqueda y paginación de Pokémon (React + Nest)
-
-> Demo técnica 2025 • Node 20 • React 19 • Vite 7
-
-## 1. Tecnologías
-
-| Capa | Stack | Por qué |
-|------|-------|---------|
-| **Backend** | Nest JS 10 (Express) + `@nestjs/cache-manager` | Estructura modular, in‑memory cache con TTL. |
-| **Frontend** | React 19 + Vite 7 + Tailwind CSS | Arranque ultrarrápido; estilos utility‑first. |
-| **State & Data** | TanStack Query v5 | Caché en RAM + manejo de carga/errores. |
-| **HTTP** | Fetch API | Sin dependencias extra. |
-| **Tests** | Jest 30 + Testing Library | Unit / e2e para servicio y controlador. |
-| **Infra Demo** | Docker multi‑stage (opcional) | Ejecutable en cualquier entorno. |
-
-## 2. Instalación rápida
-
-```bash
-# 1. Clonar
-git clone https://github.com/<tu‑usuario>/poke-demo.git
-cd poke-demo
-
-# 2. Backend
-cd backend
-cp .env.example .env          # opcional, editar puertos
-npm install
-npm run start:dev             # http://localhost:3000
-
-# 3. Frontend (nueva terminal)
-cd ../frontend
-cp .env.example .env          # VITE_API_URL=http://localhost:3000
-npm install
-npm run dev                   # http://localhost:5173
 
 ```
+
+# **PokéDemo – Frontend**  
+> React 19 · Vite 7 · Tailwind CSS · TanStack Query v5  
+
+---
+
+## ⚙️ Tecnologías
+
+| Herramienta | Versión | Rol |
+|-------------|---------|-----|
+| **React** | 19 (alpha) | Componente UI declarativa |
+| **Vite** | 7 | Dev‑server ultrarrápido y bundler |
+| **Tailwind CSS** | 3.4 | Estilos utility‑first |
+| **TanStack Query** | 5 | Fetch + caché en RAM |
+| **TypeScript** | 5 | Tipado estático |
+| **ESLint + Prettier** | latest | Calidad y formateo |
+
+---
+
+## 🛠️ Instalación
+
+```
+# 1 · Clona el repo y entra
+git clone https://github.com/<tu‑usuario>/poke-demo.git
+cd poke-demo/frontend
+
+# 2 · Copia env de ejemplo
+cp .env.example .env          # VITE_API_URL=http://localhost:3000
+
+# 3 · Instala dependencias
+npm install
+
+# 4 · Dev‑server
+npm run dev                   # http://localhost:5173
+```
+
+## Decisiones clave 
+
+| Tema | Qué elegí | Por qué lo elegí |
+|------|-----------|------------------|
+| **Estado y caché** | **TanStack Query v5** con `useInfiniteQuery` | La librería se encarga del caché en RAM, estados de *loading* y *error*. Solo escribo la lógica de mi API y listo. |
+| **Paginación** | **Un único botón “Cargar más”** (no “Siguiente/Anterior”) | El backend ya entiende `limit` y `offset`. Con el botón simplemente pido la siguiente página de 20 Pokémon y React Query concatena los resultados. UX muy simple, menos código. |
+| **Búsqueda** | Hook `useDebounced` con 300 ms | Mientras el usuario escribe, espero 300 ms antes de consultar. Así evito llamar al backend por cada letra. |
+| **Imágenes** | Construyo la URL del sprite con el `id` que viene en el campo `url` | No necesito otra llamada para conseguir la imagen. Ej.: `…/official-artwork/25.png` para Pikachu. |
+| **Caché en navegador** | `staleTime: 5 * 60 000` (5 min) | Durante 5 min React Query sirve la respuesta desde memoria. Si el usuario vuelve atrás o recarga rápido, ve la lista al instante. |
+| **Estilos** | **Tailwind CSS** | Utilidades (`p-4`, `rounded-xl`, etc.) en el mismo JSX. Sin archivos CSS propios, menos mantenimiento. |
+| **Estructura** | Directorios por funcionalidad (`features/pokemon/...`) | Todo lo que tiene que ver con Pokémon (página, componentes, hooks) vive junto. Fácil de encontrar y de borrar si creara otro feature. |
+| **HTTP** | `fetch` nativo + pequeño wrapper `listPokemon()` | Evito Axios hoy; menos dependencias. |
+| **Lint** | ESLint + `eslint-plugin-react-hooks` | Me avisa si olvido dependencias en un hook y mantiene estilo de código coherente. |
+
+
+
