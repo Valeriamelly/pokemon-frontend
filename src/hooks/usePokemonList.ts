@@ -1,4 +1,4 @@
-// permite hacer consultas paginadas o infinitas
+// permite hacer consultas con scroll infinito
 import { useInfiniteQuery } from '@tanstack/react-query'
 // custom hook para debouncing
 import { useDebounced } from './useDebounced'

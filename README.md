@@ -66,4 +66,38 @@ export default tseslint.config([
     },
   },
 ])
+# PokéDemo – Búsqueda y paginación de Pokémon (React + Nest)
+
+> Demo técnica 2025 • Node 20 • React 19 • Vite 7
+
+## 1. Tecnologías
+
+| Capa | Stack | Por qué |
+|------|-------|---------|
+| **Backend** | Nest JS 10 (Express) + `@nestjs/cache-manager` | Estructura modular, in‑memory cache con TTL. |
+| **Frontend** | React 19 + Vite 7 + Tailwind CSS | Arranque ultrarrápido; estilos utility‑first. |
+| **State & Data** | TanStack Query v5 | Caché en RAM + manejo de carga/errores. |
+| **HTTP** | Fetch API | Sin dependencias extra. |
+| **Tests** | Jest 30 + Testing Library | Unit / e2e para servicio y controlador. |
+| **Infra Demo** | Docker multi‑stage (opcional) | Ejecutable en cualquier entorno. |
+
+## 2. Instalación rápida
+
+```bash
+# 1. Clonar
+git clone https://github.com/<tu‑usuario>/poke-demo.git
+cd poke-demo
+
+# 2. Backend
+cd backend
+cp .env.example .env          # opcional, editar puertos
+npm install
+npm run start:dev             # http://localhost:3000
+
+# 3. Frontend (nueva terminal)
+cd ../frontend
+cp .env.example .env          # VITE_API_URL=http://localhost:3000
+npm install
+npm run dev                   # http://localhost:5173
+
 ```
